@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
@@ -8,10 +8,9 @@ import { MatIcon } from '@angular/material/icon';
   template: `
     <nav class="docs-navbar-header">
       <a mat-button routerLink="/">
-        <mat-icon>connecting_airports</mat-icon>Ngx MFE Orchestrator
+        <mat-icon>tips_and_updates</mat-icon>Ngx-Workshop
       </a>
       <div class="flex-spacer"></div>
-      <ngx-theme-picker></ngx-theme-picker>
     </nav>
   `,
   styles: [
@@ -36,7 +35,6 @@ import { MatIcon } from '@angular/material/icon';
       }
     `,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class App {
   protected title = 'ngx-header-mfe';
