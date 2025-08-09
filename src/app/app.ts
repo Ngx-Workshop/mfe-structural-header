@@ -16,6 +16,7 @@ import { MatIcon } from '@angular/material/icon';
   styles: [
     `
       :host {
+        display: block;
         color: var(--mat-sys-on-primary-container);
         background-color: var(--mat-sys-primary-container);
         box-shadow: var(--mat-sys-level5);
