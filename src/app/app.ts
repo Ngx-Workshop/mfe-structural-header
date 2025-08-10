@@ -21,7 +21,7 @@ import { ThemePickerComponent } from './theme-picker/theme-picker.component';
         display: block;
         color: var(--mat-sys-on-primary-container);
         background-color: var(--mat-sys-primary-container);
-        box-shadow: var(--mat-sys-level5);
+        // box-shadow: var(--mat-sys-level5);
         .docs-navbar-header {
           display: flex;
           flex-wrap: wrap;
