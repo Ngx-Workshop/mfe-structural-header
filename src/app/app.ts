@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { ThemePickerComponent } from './theme-picker/theme-picker.component';
 
 @Component({
   selector: 'ngx-header-mfe',
-  imports: [MatIcon, MatButtonModule],
+  imports: [MatIcon, MatButtonModule, ThemePickerComponent],
   template: `
     <nav class="docs-navbar-header">
       <a mat-button routerLink="/">
         <mat-icon>tips_and_updates</mat-icon>Ngx-Workshop
       </a>
       <div class="flex-spacer"></div>
+      <ngx-theme-picker></ngx-theme-picker>
     </nav>
   `,
   styles: [
