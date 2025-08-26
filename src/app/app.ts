@@ -1,13 +1,13 @@
 import { Component, effect, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { ThemePickerComponent } from './theme-picker/theme-picker.component';
+import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
 
 import type { StructuralOverrideMode } from '@tmdjr/ngx-mfe-orchestrator-contracts';
 
 @Component({
   selector: 'ngx-header-mfe',
-  imports: [MatIcon, MatButtonModule, ThemePickerComponent],
+  imports: [MatIcon, MatButtonModule, NgxThemePicker],
   template: `
     @if(mode() != 'disabled') {
     <nav class="docs-navbar-header">
