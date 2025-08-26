@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ThemePickerComponent } from './theme-picker/theme-picker.component';
+
+import type { StructuralOverrideMode } from '@tmdjr/ngx-mfe-orchestrator-contracts';
 
 @Component({
   selector: 'ngx-header-mfe',
   imports: [MatIcon, MatButtonModule, ThemePickerComponent],
   template: `
+    @if(mode() != 'disabled') {
     <nav class="docs-navbar-header">
       <a mat-button routerLink="/">
         <mat-icon>tips_and_updates</mat-icon>Ngx-Workshop
@@ -14,6 +17,7 @@ import { ThemePickerComponent } from './theme-picker/theme-picker.component';
       <div class="flex-spacer"></div>
       <ngx-theme-picker></ngx-theme-picker>
     </nav>
+    }
   `,
   styles: [
     `
@@ -41,6 +45,13 @@ import { ThemePickerComponent } from './theme-picker/theme-picker.component';
 })
 export class App {
   protected title = 'ngx-header-mfe';
+  mode = input<StructuralOverrideMode>('full');
+
+  constructor() {
+    effect(() => {
+      console.log('Effect - Mode changed to:', this.mode());
+    });
+  }
 }
 
 // 👇 **IMPORTANT FOR DYMANIC LOADING**
