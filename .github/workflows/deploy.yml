@@ -1,4 +1,4 @@
-name: Deploy Ngx-Header-MFE to DO Droplet
+name: Deploy MFE Structural Header to DO Droplet
 
 on:
   push:
@@ -29,8 +29,8 @@ jobs:
           host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/ngx-header-mfe/*"
-          target: "/opt/ngx-angular-shell/remotes/ngx-header-mfe/"
+          source: 'dist/mfe-structural-header/*'
+          target: '/opt/mfe-remotes/mfe-structural-header/'
           strip_components: 2
 
       - name: SSH and reload Nginx (optional)
