@@ -11,9 +11,9 @@ import type { StructuralOverrideMode } from '@tmdjr/ngx-mfe-orchestrator-contrac
   template: `
     @if(mode() != 'disabled') {
     <nav class="docs-navbar-header">
-      <a mat-button routerLink="/">
+      <button mat-button (click)="navigateToBaseUrl()">
         <mat-icon>tips_and_updates</mat-icon>Ngx-Workshop
-      </a>
+      </button>
       <div class="flex-spacer"></div>
       <ngx-theme-picker></ngx-theme-picker>
     </nav>
@@ -51,6 +51,10 @@ export class App {
     effect(() => {
       console.log('Effect - Mode changed to:', this.mode());
     });
+  }
+
+  navigateToBaseUrl() {
+    window.location.href = '/';
   }
 }
 
