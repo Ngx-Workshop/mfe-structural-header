@@ -1,17 +1,18 @@
 import { Component, effect, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
 
 import type { StructuralOverrideMode } from '@tmdjr/ngx-mfe-orchestrator-contracts';
 
 @Component({
   selector: 'ngx-header-mfe',
-  imports: [MatIcon, MatButtonModule, NgxThemePicker],
+  imports: [MatIcon, MatButtonModule, NgxThemePicker, RouterLink],
   template: `
     @if(mode() != 'disabled') {
     <nav class="docs-navbar-header">
-      <button mat-button (click)="navigateToBaseUrl()">
+      <button mat-button routerLink="/">
         <mat-icon>tips_and_updates</mat-icon>Ngx-Workshop
       </button>
       <div class="flex-spacer"></div>
@@ -51,10 +52,6 @@ export class App {
     effect(() => {
       console.log('Effect - Mode changed to:', this.mode());
     });
-  }
-
-  navigateToBaseUrl() {
-    window.location.href = '/';
   }
 }
 
