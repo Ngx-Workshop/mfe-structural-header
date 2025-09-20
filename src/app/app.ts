@@ -1,22 +1,35 @@
-import { Component, effect, input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, effect, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import type {
+  MfeRemoteDto,
+  StructuralOverrideMode,
+} from '@tmdjr/ngx-mfe-orchestrator-contracts';
+import { NgxNavigationalListService } from '@tmdjr/ngx-navigational-list';
 import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
-
-import type { StructuralOverrideMode } from '@tmdjr/ngx-mfe-orchestrator-contracts';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'ngx-header-mfe',
-  imports: [MatIcon, MatButtonModule, NgxThemePicker, RouterLink],
+  imports: [MatIcon, MatButtonModule, NgxThemePicker, RouterLink, AsyncPipe],
   template: `
     @if(mode() != 'disabled') {
     <nav class="docs-navbar-header">
-      <button mat-button routerLink="/">
+      @if(viewModel$ | async; as userJourneyRemotes) {
+      <a mat-button routerLink="/">
         <mat-icon>tips_and_updates</mat-icon>Ngx-Workshop
-      </button>
+      </a>
+
+      @for (remote of userJourneyRemotes; track $index) {
+      <a mat-button [routerLink]="[remote.routeUrl]">
+        {{ remote.name }}
+      </a>
+      }
       <div class="flex-spacer"></div>
       <ngx-theme-picker></ngx-theme-picker>
+      }
     </nav>
     }
   `,
@@ -48,10 +61,28 @@ export class App {
   protected title = 'ngx-header-mfe';
   mode = input<StructuralOverrideMode>('full');
 
+  ngxNavigationalListService = inject(NgxNavigationalListService);
+
   constructor() {
     effect(() => {
       console.log('Effect - Mode changed to:', this.mode());
     });
+  }
+
+  viewModel$ = inject(NgxNavigationalListService).userJourneyRemotes$.pipe(
+    filter(
+      (remotes): remotes is MfeRemoteDto[] =>
+        Array.isArray(remotes) && remotes.length > 0
+    ),
+    map((remotes) =>
+      remotes.map((remote) => ({
+        routeUrl: this.toSlug(remote.name),
+        ...remote,
+      }))
+    )
+  );
+  toSlug(value: string): string {
+    return value.trim().toLowerCase().replace(/\s+/g, '-');
   }
 }
 
