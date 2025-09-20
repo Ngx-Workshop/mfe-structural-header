@@ -15,7 +15,7 @@ import { filter, map } from 'rxjs';
   selector: 'ngx-header-mfe',
   imports: [MatIcon, MatButtonModule, NgxThemePicker, RouterLink, AsyncPipe],
   template: `
-    @if(mode() != 'disabled') {
+    @if(mode() && mode() != 'disabled') {
     <nav class="docs-navbar-header">
       @if(viewModel$ | async; as userJourneyRemotes) {
       <a mat-button routerLink="/">
