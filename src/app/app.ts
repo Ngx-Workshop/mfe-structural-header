@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -58,17 +58,7 @@ import { filter, map } from 'rxjs';
   ],
 })
 export class App {
-  protected title = 'ngx-header-mfe';
-  mode = input<StructuralOverrideMode>('full');
-
-  ngxNavigationalListService = inject(NgxNavigationalListService);
-
-  constructor() {
-    effect(() => {
-      console.log('Effect - Mode changed to:', this.mode());
-    });
-  }
-
+  mode = input<StructuralOverrideMode>('disabled');
   viewModel$ = inject(NgxNavigationalListService).userJourneyRemotes$.pipe(
     filter(
       (remotes): remotes is MfeRemoteDto[] =>
