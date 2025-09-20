@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -59,6 +59,13 @@ import { filter, map } from 'rxjs';
 })
 export class App {
   mode = input<StructuralOverrideMode>('disabled');
+
+  constructor() {
+    effect(() => {
+      console.log('Header mode', this.mode());
+    });
+  }
+
   viewModel$ = inject(NgxNavigationalListService).userJourneyRemotes$.pipe(
     filter(
       (remotes): remotes is MfeRemoteDto[] =>
