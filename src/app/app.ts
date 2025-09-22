@@ -2,31 +2,47 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
-import type {
-  MfeRemoteDto,
-  StructuralOverrideMode,
-} from '@tmdjr/ngx-mfe-orchestrator-contracts';
+import type { StructuralOverrideMode } from '@tmdjr/ngx-mfe-orchestrator-contracts';
 import { NgxNavigationalListService } from '@tmdjr/ngx-navigational-list';
 import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
-import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'ngx-header-mfe',
-  imports: [MatIcon, MatButtonModule, NgxThemePicker, RouterLink, AsyncPipe],
+  imports: [
+    MatIcon,
+    MatButtonModule,
+    MatMenuModule,
+    NgxThemePicker,
+    RouterLink,
+    AsyncPipe,
+  ],
   template: `
     @if(mode() && mode() != 'disabled') {
     <nav class="docs-navbar-header">
-      @if(viewModel$ | async; as userJourneyRemotes) {
+      @if(viewModel$ | async; as hierarchicalMenuItems) {
       <a mat-button routerLink="/">
         <mat-icon>tips_and_updates</mat-icon>Ngx-Workshop
       </a>
 
-      @for (remote of userJourneyRemotes; track $index) {
-      <a mat-button [routerLink]="[remote.routeUrl]">
-        {{ remote.name }}
+      @for(menuItem of hierarchicalMenuItems; track $index) {
+      @if(menuItem.children && menuItem.children.length > 0) {
+      <button mat-button [matMenuTriggerFor]="menuItemMenu$index">
+        {{ menuItem.menuItemText }}
+      </button>
+      <mat-menu #menuItemMenu$index="matMenu">
+        @for (child of menuItem.children; track $index) {
+        <button mat-menu-item [routerLink]="['/', child.routeUrl]">
+          {{ child.menuItemText }}
+        </button>
+        }
+      </mat-menu>
+      } @else {
+      <a mat-button [routerLink]="['/', menuItem.routeUrl]">
+        {{ menuItem.menuItemText }}
       </a>
-      }
+      } }
       <div class="flex-spacer"></div>
       <ngx-theme-picker></ngx-theme-picker>
       }
@@ -60,21 +76,9 @@ import { filter, map } from 'rxjs';
 export class App {
   mode = input<StructuralOverrideMode>('disabled');
 
-  viewModel$ = inject(NgxNavigationalListService).userJourneyRemotes$.pipe(
-    filter(
-      (remotes): remotes is MfeRemoteDto[] =>
-        Array.isArray(remotes) && remotes.length > 0
-    ),
-    map((remotes) =>
-      remotes.map((remote) => ({
-        routeUrl: this.toSlug(remote.name),
-        ...remote,
-      }))
-    )
-  );
-  toSlug(value: string): string {
-    return value.trim().toLowerCase().replace(/\s+/g, '-');
-  }
+  viewModel$ = inject(NgxNavigationalListService)
+    .getFilteredNavigationBySubtypeAndState('HEADER', 'FULL')
+    .pipe();
 }
 
 // 👇 **IMPORTANT FOR DYMANIC LOADING**
