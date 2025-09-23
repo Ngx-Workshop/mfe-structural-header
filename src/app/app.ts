@@ -23,23 +23,26 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
     <nav class="docs-navbar-header">
       @if(viewModel$ | async; as hierarchicalMenuItems) {
       <a mat-button routerLink="/">
-        <mat-icon>tips_and_updates</mat-icon>Ngx-Workshop
+        <mat-icon class="logo">tips_and_updates</mat-icon>Ngx-Workshop
       </a>
 
       @for(menuItem of hierarchicalMenuItems; track $index) {
       @if(menuItem.children && menuItem.children.length > 0) {
-      <button mat-button [matMenuTriggerFor]="menuItemMenu$index">
+      <a mat-button [matMenuTriggerFor]="menuItemMenu$index">
+        <mat-icon>{{ menuItem.headerSvgPath }}</mat-icon>
         {{ menuItem.menuItemText }}
-      </button>
+      </a>
       <mat-menu #menuItemMenu$index="matMenu" class="dense-menu">
         @for (child of menuItem.children; track $index) {
         <button mat-menu-item [routerLink]="['/', child.routeUrl]">
+          <mat-icon>{{ child.headerSvgPath }}</mat-icon>
           {{ child.menuItemText }}
         </button>
         }
       </mat-menu>
       } @else {
       <a mat-button [routerLink]="['/', menuItem.routeUrl]">
+        <mat-icon>{{ menuItem.headerSvgPath }}</mat-icon>
         {{ menuItem.menuItemText }}
       </a>
       } }
@@ -67,7 +70,7 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
           flex-wrap: wrap;
           align-items: center;
           padding: 0.5em 1em;
-          mat-icon {
+          mat-icon.logo {
             font-size: 2rem;
             width: 2rem;
             height: 2rem;
