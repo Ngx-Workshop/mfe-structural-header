@@ -70,6 +70,7 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
           flex-wrap: wrap;
           align-items: center;
           padding: 0.5em 1em;
+          box-shadow: var(--mat-sys-level5);
           mat-icon.logo {
             font-size: 2rem;
             width: 2rem;
