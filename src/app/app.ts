@@ -31,7 +31,7 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
       <button mat-button [matMenuTriggerFor]="menuItemMenu$index">
         {{ menuItem.menuItemText }}
       </button>
-      <mat-menu #menuItemMenu$index="matMenu">
+      <mat-menu #menuItemMenu$index="matMenu" class="dense-menu">
         @for (child of menuItem.children; track $index) {
         <button mat-menu-item [routerLink]="['/', child.routeUrl]">
           {{ child.menuItemText }}
@@ -51,11 +51,17 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
   `,
   styles: [
     `
+      // ::ng-deep .dense-menu .mat-mdc-menu-item {
+      // min-height: 40px;
+      // padding: 8px;
+      // }
+      ::ng-deep .dense-menu .mat-mdc-menu-content {
+        min-width: 200px;
+      }
       :host {
         display: block;
         color: var(--mat-sys-on-primary-container);
         background-color: var(--mat-sys-primary-container);
-        // box-shadow: var(--mat-sys-level5);
         .docs-navbar-header {
           display: flex;
           flex-wrap: wrap;
