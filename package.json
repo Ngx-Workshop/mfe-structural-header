@@ -34,7 +34,7 @@
     "@types/jasmine": "~5.1.0",
     "@tmdjr/ngx-mfe-orchestrator-contracts": "0.0.47",
     "@tmdjr/user-metadata-contracts": "0.0.42",
-    "@tmdjr/ngx-navigational-list": "0.0.7",
+    "@tmdjr/ngx-navigational-list": "0.0.8",
     "@tmdjr/ngx-theme-picker": "0.0.2",
     "jasmine-core": "~5.7.0",
     "karma": "~6.4.0",
