@@ -1,12 +1,23 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import type { StructuralOverrideMode } from '@tmdjr/ngx-mfe-orchestrator-contracts';
-import { NgxNavigationalListService } from '@tmdjr/ngx-navigational-list';
+import {
+  NgxNavigationalListService,
+  StructuralSubtype,
+} from '@tmdjr/ngx-navigational-list';
 import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'ngx-header-mfe',
@@ -19,15 +30,14 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
     AsyncPipe,
   ],
   template: `
-    @if(mode() && mode() != 'disabled') {
+    @if(viewModel$ | async; as vm) { @if(vm.mode !== 'disabled') {
     <nav class="docs-navbar-header">
-      @if(viewModel$ | async; as hierarchicalMenuItems) {
       <a mat-button routerLink="/">
         <mat-icon class="logo">tips_and_updates</mat-icon>Ngx-Workshop
       </a>
 
-      @for(menuItem of hierarchicalMenuItems; track $index) {
-      @if(menuItem.children && menuItem.children.length > 0) {
+      @for(menuItem of vm.menuItems; track $index) { @if(menuItem.children &&
+      menuItem.children.length > 0) {
       <a mat-button [matMenuTriggerFor]="menuItemMenu$index">
         <mat-icon>{{ menuItem.headerSvgPath }}</mat-icon>
         {{ menuItem.menuItemText }}
@@ -48,9 +58,8 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
       } }
       <div class="flex-spacer"></div>
       <ngx-theme-picker></ngx-theme-picker>
-      }
     </nav>
-    }
+    } }
   `,
   styles: [
     `
@@ -84,12 +93,39 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
   ],
 })
 export class App {
-  role = input<'admin' | 'publisher' | 'regular'>('regular');
-  mode = input<StructuralOverrideMode>('disabled');
+  private readonly subtype: StructuralSubtype = 'HEADER';
+  private readonly ngxNavigationalListService = inject(
+    NgxNavigationalListService
+  );
 
-  viewModel$ = inject(NgxNavigationalListService)
-    .getFilteredNavigationBySubtypeAndState('HEADER', 'FULL')
-    .pipe();
+  @Input()
+  set role(value: 'admin' | 'publisher' | 'regular' | 'none') {
+    this.role$.next(value);
+  }
+  role$ = new BehaviorSubject<'admin' | 'publisher' | 'regular' | 'none'>(
+    'none'
+  );
+
+  @Input()
+  set mode(value: StructuralOverrideMode) {
+    this.mode$.next(value);
+  }
+  mode$ = new BehaviorSubject<StructuralOverrideMode>('disabled');
+
+  viewModel$ = combineLatest([this.mode$, this.role$]).pipe(
+    tap(([, role]) => this.ngxNavigationalListService.setRoleState(role)),
+    switchMap(([mode, role]) =>
+      forkJoin({
+        mode: of(mode),
+        role: of(role),
+        menuItems:
+          this.ngxNavigationalListService.getFilteredNavigationBySubtypeAndState(
+            this.subtype,
+            mode
+          ),
+      })
+    )
+  );
 }
 
 // 👇 **IMPORTANT FOR DYMANIC LOADING**
