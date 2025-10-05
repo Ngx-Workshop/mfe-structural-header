@@ -84,6 +84,7 @@ import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
   ],
 })
 export class App {
+  role = input<'admin' | 'publisher' | 'regular'>('regular');
   mode = input<StructuralOverrideMode>('disabled');
 
   viewModel$ = inject(NgxNavigationalListService)
