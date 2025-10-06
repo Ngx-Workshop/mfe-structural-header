@@ -10,14 +10,7 @@ import {
   StructuralSubtype,
 } from '@tmdjr/ngx-navigational-list';
 import { NgxThemePicker } from '@tmdjr/ngx-theme-picker';
-import {
-  BehaviorSubject,
-  combineLatest,
-  forkJoin,
-  of,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'ngx-header-mfe',
@@ -115,13 +108,13 @@ export class App {
   viewModel$ = combineLatest([this.mode$, this.role$]).pipe(
     tap(([, role]) => this.ngxNavigationalListService.setRoleState(role)),
     switchMap(([mode, role]) =>
-      forkJoin({
-        mode: of(mode),
-        role: of(role),
+      combineLatest({
+        mode: of(mode.toUpperCase()),
+        role: of(role.toUpperCase()),
         menuItems:
           this.ngxNavigationalListService.getFilteredNavigationBySubtypeAndState(
             this.subtype,
-            mode
+            mode.toUpperCase()
           ),
       })
     )
