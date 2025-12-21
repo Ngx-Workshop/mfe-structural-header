@@ -109,15 +109,16 @@ export class App {
     tap(([, role]) => this.ngxNavigationalListService.setRoleState(role)),
     switchMap(([mode, role]) =>
       combineLatest({
-        mode: of(mode.toUpperCase()),
-        role: of(role.toUpperCase()),
+        mode: of(mode),
+        role: of(role),
         menuItems:
           this.ngxNavigationalListService.getFilteredNavigationBySubtypeAndState(
             this.subtype,
             mode.toUpperCase()
           ),
       })
-    )
+    ),
+    tap((vm) => console.log('Header MFE VM:', vm))
   );
 }
 
