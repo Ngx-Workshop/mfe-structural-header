@@ -117,8 +117,7 @@ export class App {
             mode.toUpperCase()
           ),
       })
-    ),
-    tap((vm) => console.log('Header MFE VM:', vm))
+    )
   );
 }
 
