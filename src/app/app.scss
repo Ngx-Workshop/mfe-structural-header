@@ -1,0 +1,158 @@
+// Layout belongs to the remote; shared colors and controls belong to the design system.
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+:host([data-mode='disabled']) {
+  display: none;
+}
+.structural-nav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--ngx-color-canvas);
+  color: var(--ngx-color-text);
+  border-color: var(--ngx-color-border);
+  border-style: solid;
+  border-width: 0;
+  font-family: var(--ngx-font-mono);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  min-block-size: 44px;
+  color: var(--ngx-color-primary);
+  text-decoration: none;
+}
+.brand > mat-icon {
+  inline-size: 32px;
+  block-size: 32px;
+  font-size: 32px;
+}
+.brand-copy {
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+.brand-copy > span {
+  display: block;
+  color: var(--ngx-color-muted);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+}
+.links {
+  display: flex;
+  gap: 0.5rem;
+  min-inline-size: 0;
+}
+.section-label {
+  color: var(--ngx-color-muted);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.structural-nav .nav-item {
+  --button-accent: var(--ngx-color-border);
+  --button-ink: var(--ngx-color-text);
+  min-block-size: 48px;
+  color: var(--ngx-color-text);
+}
+.structural-nav .nav-item:hover,
+.structural-nav .nav-item.is-active {
+  --button-accent: var(--ngx-color-primary);
+  --button-ink: var(--ngx-color-primary);
+  color: var(--ngx-color-primary);
+  background: transparent;
+}
+.structural-nav .nav-item.is-active {
+  --button-accent: var(--ngx-color-primary);
+  --button-ink: var(--ngx-color-primary);
+}
+.utilities {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sign-in {
+  min-height: 44px;
+  padding-inline: 20px;
+  font-size: 0.75rem;
+}
+.mobile-toggle {
+  display: none;
+  color: var(--ngx-color-primary);
+}
+:focus-visible {
+  outline: 2px solid var(--ngx-color-primary);
+  outline-offset: 3px;
+}
+
+.structural-nav {
+  align-items: center;
+  flex-wrap: wrap;
+  border-block-end-width: 1px;
+}
+.brand {
+  padding-inline: 0.5rem 1rem;
+}
+.links {
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.section-label {
+  flex-basis: 100%;
+}
+.structural-nav .nav-item {
+  min-height: 44px;
+  padding-inline: 18px;
+  font-size: 0.75rem;
+}
+.utilities {
+  margin-inline-start: auto;
+}
+.structural-nav[data-mode='full'] {
+  padding-block: 1rem;
+}
+[data-mode='compact'] .brand-copy > span {
+  display: none;
+}
+.structural-nav[data-mode='compact'] .nav-item {
+  padding-inline: 14px;
+}
+.structural-nav[data-mode='relaxed'] .nav-item {
+  --ngx-button-cut: 6px;
+}
+@media (max-width: 720px) {
+  .structural-nav {
+    padding: 0.5rem 1rem;
+  }
+  .mobile-toggle {
+    display: inline-flex;
+    margin-inline-start: auto;
+  }
+  .links {
+    display: none;
+    flex-basis: 100%;
+  }
+  .links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-block: 0.5rem;
+  }
+  .section-label {
+    padding: 0.5rem;
+  }
+  .structural-nav .nav-item {
+    inline-size: 100%;
+    justify-content: flex-start;
+    min-height: 48px;
+  }
+  .utilities {
+    margin: 0;
+    justify-content: space-between;
+  }
+}
