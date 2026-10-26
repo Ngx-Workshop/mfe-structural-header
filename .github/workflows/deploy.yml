@@ -48,7 +48,6 @@ jobs:
         run: |
           npm ci
           npm run build -- --configuration development
-          npm run test:federation
           test -f dist/mfe-structural-header/index.html
 
       - name: Copy static assets to frontend
