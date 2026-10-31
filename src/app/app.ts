@@ -1,3 +1,4 @@
+import { MenuDeviconComponent } from './devicon.component';
 import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -25,6 +26,7 @@ type UserRole = 'admin' | 'publisher' | 'regular' | 'none';
   selector: 'ngx-header-mfe',
   imports: [
     AsyncPipe,
+    MenuDeviconComponent,
     MatButtonModule,
     MatIcon,
     MatMenuModule,

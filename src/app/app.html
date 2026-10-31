@@ -37,8 +37,8 @@
               [attr.aria-label]="item.menuItemText"
               [title]="item.menuItemText"
             >
-              <mat-icon>{{ item.headerSvgPath }}</mat-icon
-              ><span class="item-label">{{ item.menuItemText }}</span
+              <ngx-menu-devicon matButtonIcon [icon]="item.headerSvgPath" />
+              <span class="item-label">{{ item.menuItemText }}</span
               ><mat-icon iconPositionEnd class="expand">expand_more</mat-icon>
             </button>
             <mat-menu #children="matMenu" class="ngx-design-system-overlay">
@@ -50,8 +50,8 @@
                   ariaCurrentWhenActive="page"
                   (click)="closeNavigation()"
                 >
-                  <mat-icon>{{ child.headerSvgPath }}</mat-icon
-                  ><span>{{ child.menuItemText }}</span>
+                  <ngx-menu-devicon matMenuItemIcon [icon]="child.headerSvgPath" />
+                  <span>{{ child.menuItemText }}</span>
                 </a>
               }
             </mat-menu>
@@ -70,8 +70,8 @@
               [title]="item.menuItemText"
               (click)="closeNavigation()"
             >
-              <mat-icon>{{ item.headerSvgPath }}</mat-icon
-              ><span class="item-label">{{ item.menuItemText }}</span>
+              <ngx-menu-devicon matButtonIcon [icon]="item.headerSvgPath" />
+              <span class="item-label">{{ item.menuItemText }}</span>
             </a>
           }
         }
