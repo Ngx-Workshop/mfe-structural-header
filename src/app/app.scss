@@ -10,11 +10,11 @@
   display: flex;
   gap: 0.5rem;
   padding: 0.75rem;
-  background: var(--ngx-color-canvas);
+  // background: var(--ngx-color-canvas);
   color: var(--ngx-color-text);
-  border-color: var(--ngx-color-border);
-  border-style: solid;
-  border-width: 0;
+  // border-color: var(--ngx-color-border);
+  // border-style: solid;
+  // border-width: 0;
   font-family: var(--ngx-font-mono);
 }
 .brand {
@@ -154,5 +154,15 @@
   .utilities {
     margin: 0;
     justify-content: space-between;
+  }
+}
+
+// iPhone Duo inner screen open
+@media (min-width: 900px) and (max-width: 1024px) {
+  .structural-nav[data-mode='full'] {
+    padding-block: 0.25rem;
+  }
+  .section-label {
+    display: none;
   }
 }
